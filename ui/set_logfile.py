@@ -1,4 +1,5 @@
 import logging
+
 from utility.static import strf_time
 
 
@@ -15,7 +16,7 @@ class SetLogFile:
             self.ui.log3 = self.setLog('StockOrder', f"./_log/SO_{name}.txt")
         if self.ui.dict_set['코인트레이더']:
             self.ui.log4 = self.setLog('TraderCoin', f"./_log/CT_{name}.txt")
-            self.ui.log5 = self.setLog('ReceiverCoin', f"./_log/CT_{name}.txt")
+            self.ui.log5 = self.setLog('ReceiverCoin', f"./_log/CR_{name}.txt")  # 수정된 부분
         self.ui.log6 = self.setLog('Backtester', f"./_log/BK_{name}.txt")
 
     @staticmethod

@@ -1,91 +1,90 @@
 import ctypes
 import subprocess
-from PyQt5.QtGui import QPalette
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QCompleter
 from multiprocessing import Queue
+
 from matplotlib import font_manager
 from matplotlib import pyplot as plt
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtGui import QPalette
+from PyQt5.QtWidgets import QCompleter
 
-from ui.set_style import *
-from ui.set_icon import SetIcon
-from ui.set_table import SetTable
-from ui.set_logtap import SetLogTap
 from ui.set_cbtap import SetCoinBack
-from ui.set_sbtap import SetStockBack
-from ui.set_widget import WidgetCreater
-from ui.set_setuptap import SetSetupTap
-from ui.set_ordertap import SetOrderTap
-from ui.set_mainmenu import SetMainMenu
-from ui.set_dialog_etc import SetDialogEtc
 from ui.set_dialog_back import SetDialogBack
-from ui.set_mediaplayer import SetMediaPlayer
 from ui.set_dialog_chart import SetDialogChart
-
-from ui.ui_writer import Writer
-from ui.ui_zmq import ZmqServ, ZmqRecv
-from ui.ui_draw_chart import DrawChart
-from ui.ui_draw_treemap import DrawTremap
-from ui.ui_extend_window import extend_window
-from ui.ui_draw_realchart import DrawRealChart
-from ui.ui_update_textedit import UpdateTextedit
-from ui.ui_process_starter import process_starter
-from ui.ui_draw_jisuchart import DrawRealJisuChart
-from ui.ui_update_tablewidget import UpdateTablewidget
-from ui.ui_update_progressbar import update_progressbar
-
-from ui.ui_etc import *
-from ui.ui_pattern import *
-from ui.ui_event_filter import *
+from ui.set_dialog_etc import SetDialogEtc
+from ui.set_icon import SetIcon
+from ui.set_logtap import SetLogTap
+from ui.set_mainmenu import SetMainMenu
+from ui.set_mediaplayer import SetMediaPlayer
+from ui.set_ordertap import SetOrderTap
+from ui.set_sbtap import SetStockBack
+from ui.set_setuptap import SetSetupTap
+from ui.set_style import *
+from ui.set_table import SetTable
+from ui.set_widget import WidgetCreater
 from ui.ui_activated_b import *
 from ui.ui_activated_c import *
-from ui.ui_activated_s import *
-from ui.ui_show_dialog import *
-from ui.ui_vars_change import *
-from ui.ui_cell_clicked import *
-from ui.ui_text_changed import *
-from ui.ui_process_kill import *
-from ui.ui_return_press import *
 from ui.ui_activated_etc import *
-from ui.ui_process_alive import *
+from ui.ui_activated_s import *
 from ui.ui_backtest_engine import *
-from ui.ui_key_press_event import *
-from ui.ui_checkbox_changed import *
-from ui.ui_button_clicked_db import *
-from ui.ui_button_clicked_ob import *
-from ui.ui_button_clicked_sd import *
-from ui.ui_button_clicked_mn import *
-from ui.ui_button_clicked_sj import *
-from ui.ui_button_clicked_etc import *
-from ui.ui_chart_count_change import *
-from ui.ui_button_clicked_svc import *
-from ui.ui_button_clicked_svj import *
+from ui.ui_button_clicked_chart import *
 from ui.ui_button_clicked_cvc import *
 from ui.ui_button_clicked_cvj import *
-from ui.ui_button_clicked_svjs import *
-from ui.ui_button_clicked_svjb import *
-from ui.ui_button_clicked_cvoa import *
-from ui.ui_button_clicked_cvjs import *
 from ui.ui_button_clicked_cvjb import *
+from ui.ui_button_clicked_cvjs import *
+from ui.ui_button_clicked_cvoa import *
+from ui.ui_button_clicked_db import *
+from ui.ui_button_clicked_etc import *
+from ui.ui_button_clicked_mn import *
+from ui.ui_button_clicked_ob import *
+from ui.ui_button_clicked_sd import *
+from ui.ui_button_clicked_sj import *
+from ui.ui_button_clicked_ss_cs import *
+from ui.ui_button_clicked_svc import *
+from ui.ui_button_clicked_svj import *
+from ui.ui_button_clicked_svjb import *
+from ui.ui_button_clicked_svjs import *
 from ui.ui_button_clicked_svoa import *
 from ui.ui_button_clicked_zoom import *
-from ui.ui_button_clicked_ss_cs import *
-from ui.ui_button_clicked_chart import *
-
-from utility.static import *
-from utility.setting import *
-from utility.hoga import Hoga
+from ui.ui_cell_clicked import *
+from ui.ui_chart_count_change import *
+from ui.ui_checkbox_changed import *
+from ui.ui_draw_chart import DrawChart
+from ui.ui_draw_jisuchart import DrawRealJisuChart
+from ui.ui_draw_realchart import DrawRealChart
+from ui.ui_draw_treemap import DrawTremap
+from ui.ui_etc import *
+from ui.ui_event_filter import *
+from ui.ui_extend_window import extend_window
+from ui.ui_key_press_event import *
+from ui.ui_pattern import *
+from ui.ui_process_alive import *
+from ui.ui_process_kill import *
+from ui.ui_process_starter import process_starter
+from ui.ui_return_press import *
+from ui.ui_show_dialog import *
+from ui.ui_text_changed import *
+from ui.ui_update_progressbar import update_progressbar
+from ui.ui_update_tablewidget import UpdateTablewidget
+from ui.ui_update_textedit import UpdateTextedit
+from ui.ui_vars_change import *
+from ui.ui_writer import Writer
+from ui.ui_zmq import ZmqRecv, ZmqServ
 from utility.chart import Chart
-from utility.sound import Sound
-from utility.query import Query
 from utility.chart_items import *
-from utility.webcrawling import WebCrawling
+from utility.hoga import Hoga
+from utility.query import Query
+from utility.setting import *
+from utility.sound import Sound
+from utility.static import *
 from utility.telegram_msg import TelegramMsg
+from utility.webcrawling import WebCrawling
 
 
 class Window(QMainWindow):
     def __init__(self, auto_run_):
         super().__init__()
+        # 초기 설정값 정의
         self.auto_run = auto_run_
         self.dict_set = DICT_SET
         self.hogaQ    = hogaQ
@@ -94,7 +93,8 @@ class Window(QMainWindow):
         self.cpu_per  = 0
         self.int_time = int_hms()
         self.wc       = WidgetCreater(self)
-
+        
+        # UI 구성 초기화
         SetLogFile(self)
         SetIcon(self)
         SetMainMenu(self, self.wc)
@@ -108,7 +108,8 @@ class Window(QMainWindow):
         SetDialogEtc(self, self.wc)
         SetDialogBack(self, self.wc)
         SetMediaPlayer(self)
-
+        
+        # SQLite 데이터베이스 연결 및 초기 데이터 로드
         con1 = sqlite3.connect(DB_SETTING)
         con2 = sqlite3.connect(DB_STOCK_BACK)
         try:
@@ -117,21 +118,23 @@ class Window(QMainWindow):
             df = pd.read_sql('SELECT * FROM codename', con2).set_index('index')
         con1.close()
         con2.close()
-
+        
+        # 종목명 및 코드 딕셔너리 초기화
         self.dict_name = {code: df['종목명'][code] for code in df.index}
         self.dict_code = {name: code for code, name in self.dict_name.items()}
 
         if len(df) < 10:
             print('setting.db 내에 codename 테이블이 갱신되지 않았습니다.')
             print('주식 수동로그인을 한번 실행하면 codename 테이블이 갱신됩니다.')
-
+        
+        # 추가적인 데이터베이스 설정
         con = sqlite3.connect(DB_COIN_TICK)
         df = pd.read_sql("SELECT name FROM sqlite_master WHERE TYPE = 'table'", con)
         con.close()
-
+        # 자동 완성 기능 설정
         self.ct_lineEdittttt_04.setCompleter(QCompleter(list(self.dict_code.values())))
         self.ct_lineEdittttt_05.setCompleter(QCompleter(list(self.dict_name.values()) + df['name'].to_list()))
-
+        # 다양한 초기값 설정
         self.back_schedul     = False
         self.showQsize        = False
         self.test_pause       = False
@@ -175,7 +178,8 @@ class Window(QMainWindow):
         self.stock_simulator_alive = False
         self.backengin_window_open = False
         self.optuna_window_open    = False
-
+        
+        # 백테스터 관련 프로세스 초기화
         self.proc_backtester_bb    = None
         self.proc_backtester_bf    = None
         self.proc_backtester_bc    = None
@@ -243,7 +247,7 @@ class Window(QMainWindow):
         self.tm_dt   = False
         self.tm_mc1  = 0
         self.tm_mc2  = 0
-
+        # 외부 스크립트 및 프로세스 실행
         subprocess.Popen('python ./stock/kiwoom_manager.py')
 
         port_num = get_port_number()
@@ -252,7 +256,7 @@ class Window(QMainWindow):
 
         self.zmqrecv = ZmqRecv(qlist, port_num + 1)
         self.zmqrecv.start()
-
+        # QTimer를 이용한 주기적인 작업 수행
         self.qtimer1 = QTimer()
         self.qtimer1.setInterval(1 * 1000)
         # noinspection PyUnresolvedReferences
@@ -270,7 +274,7 @@ class Window(QMainWindow):
         # noinspection PyUnresolvedReferences
         self.qtimer3.timeout.connect(self.UpdateCpuper)
         self.qtimer3.start()
-
+        # 데이터 업데이트 및 차트 관련 초기화
         self.update_textedit    = UpdateTextedit(self, qlist)
         self.update_tablewidget = UpdateTablewidget(self, qlist)
         self.draw_chart         = DrawChart(self)
@@ -298,13 +302,14 @@ class Window(QMainWindow):
         # noinspection PyUnresolvedReferences
         self.writer.signal9.connect(self.StomliveScreenshot)
         self.writer.start()
-
+        # 한글 폰트 설정
         font_name = 'C:/Windows/Fonts/malgun.ttf'
         font_family = font_manager.FontProperties(fname=font_name).get_name()
         plt.rcParams['font.family'] = font_family
         plt.rcParams['axes.unicode_minus'] = False
 
     # =================================================================================================================
+    # 타이머와 데이터 업데이트 관련 함수 정의
     def ProcessStarter(self):              process_starter(self, qlist)
     def UpdateProgressBar(self):           update_progressbar(self, soundQ, webcQ)
     # =================================================================================================================
@@ -764,16 +769,18 @@ class Window(QMainWindow):
 
 
 if __name__ == '__main__':
+    # 콘솔 설정 및 환경 변수 초기화
     kernel32 = ctypes.windll.kernel32
     kernel32.SetConsoleMode(kernel32.GetStdHandle(-10), 128)
     auto_run = 1 if len(sys.argv) > 1 and sys.argv[1] == 'stocklogin' else 0
     os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--blink-settings=forceDarkModeEnabled=true"
-    subprocess.Popen('python64 ./utility/timesync.py')
+    # 외부 프로세스 실행
+    subprocess.Popen('python ./utility/timesync.py')
 
     windowQ, soundQ, queryQ, teleQ, chartQ, hogaQ, webcQ, backQ, creceivQ, ctraderQ, cstgQ, liveQ, totalQ, testQ, kimpQ, wdzservQ = \
         Queue(), Queue(), Queue(), Queue(), Queue(), Queue(), Queue(), Queue(), Queue(), Queue(), Queue(), Queue(), Queue(), Queue(), Queue(), Queue()
     qlist = [windowQ, soundQ, queryQ, teleQ, chartQ, hogaQ, webcQ, backQ, creceivQ, ctraderQ, cstgQ, liveQ, kimpQ, wdzservQ]
-
+    # 다양한 기능을 위한 프로세스 생성
     proc_tele  = Process(target=TelegramMsg, args=(qlist,), daemon=True)
     proc_webc  = Process(target=WebCrawling, args=(qlist,), daemon=True)
     proc_sound = Process(target=Sound, args=(qlist,), daemon=True)
@@ -787,7 +794,7 @@ if __name__ == '__main__':
     proc_query.start()
     proc_chart.start()
     proc_hoga.start()
-
+    # PyQt5 애플리케이션 초기화
     app = QApplication(sys.argv)
     app.setStyle('fusion')
     palette = QPalette()
@@ -803,6 +810,7 @@ if __name__ == '__main__':
     palette.setColor(QPalette.Highlight, color_fg_hl)
     palette.setColor(QPalette.HighlightedText, color_bg_bk)
     app.setPalette(palette)
+     # 메인 윈도우 실행
     window = Window(auto_run)
     window.show()
     app.exec_()

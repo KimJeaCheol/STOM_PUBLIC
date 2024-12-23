@@ -1,6 +1,6 @@
-import os
 import glob
 import operator
+import os
 
 ROOT_DIR = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 extensions = ['*.py', '*.bat']
@@ -10,7 +10,7 @@ ignore_paths = [
     './lecture/imagefiles',
     './lecture/testcode/temp',
     './_database',
-    './pycharm'
+    './pycharm',
     './.git',
     './.idea',
     './__pycache__',

@@ -1,9 +1,11 @@
-import sys
 import sqlite3
-import pandas as pd
+import sys
 from traceback import print_exc
+
+import pandas as pd
 from cryptography import fernet
-from utility.static import read_key, de_text
+
+from utility.static import de_text, read_key
 
 OPENAPI_PATH  = 'C:/OpenAPI'
 ICON_PATH     = './icon'
